@@ -74,6 +74,7 @@ namespace wxDCS_Injector.Service
                             Change("mission.start_time", (int)new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second).TotalSeconds);
 
                         _strMission = $"mission={Print(_lua.GetTable("mission"))}";
+                        _strMission = $"-- Inserted METAR: {metar.station_id}\n{_strMission}";
 
                         mission.Delete();
 
@@ -153,7 +154,7 @@ namespace wxDCS_Injector.Service
             switch (obj)
             {
                 case string _:
-                    return $"\"{obj}\"";
+                    return $"\"{obj.ToString().Replace("\"", "\\\"")}\"";
                 case bool _:
                     return obj.ToString().ToLower();
                 default:
