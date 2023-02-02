@@ -51,9 +51,14 @@ namespace wxDCS_Injector.Service
 
                         Log("Updating mission...");
                         Change("mission.weather.season.temperature", metar.temp_c);
-                        Change("mission.weather.wind.atGround.dir", metar.wind_dir_degrees);
+                        Change("mission.weather.wind.atGround.dir", ReverseDirection(metar.wind_dir_degrees));
                         Change("mission.weather.wind.atGround.speed", KtsToMps(metar.wind_speed_kt));
+                        Change("mission.weather.wind.at2000.dir", ReverseDirection(metar.wind_dir_degrees));
+                        Change("mission.weather.wind.at2000.speed", KtsToMps(metar.wind_speed_kt) * 2.15F);
+                        Change("mission.weather.wind.at8000.dir", ReverseDirection(metar.wind_dir_degrees));
+                        Change("mission.weather.wind.at8000.speed", KtsToMps(metar.wind_speed_kt) * 2.15F);
                         Change("mission.weather.qnh", InHgToMmHg(metar.altim_in_hg));
+                        Change("mission.weather.clouds.preset", string.Empty);
                         var clouds = metar.sky_condition.ToList().OrderBy(x => x.cloud_base_ft_agl).FirstOrDefault();
                         var cloudBase = FtToM(clouds?.cloud_base_ft_agl ?? 0);
                         Change("mission.weather.clouds.base", cloudBase);
@@ -61,9 +66,11 @@ namespace wxDCS_Injector.Service
                         Change("mission.weather.clouds.density", GetSkyCover(clouds?.sky_cover ?? string.Empty));
                         Change("mission.weather.clouds.iprecptns", GetPrecipitation(metar.precip_in, metar.snow_in));
                         var vis = MiToM(metar.visibility_statute_mi);
-                        Change("mission.weather.enable_fog", vis <= 5000F);
-                        Change("mission.weather.fog.visibility", vis);
-                        Change("mission.weather.fog.thickness", vis * 0.1F);
+                        var hasFog = vis <= 5000F;
+                        Change("mission.weather.enable_fog", hasFog);
+                        Change("mission.weather.fog.visibility", hasFog ? vis : 0F);
+                        Change("mission.weather.fog.thickness", hasFog ? vis * 0.1F : 0F);
+
                         if (UseCurrentDate)
                         {
                             Change("mission.date.Year", DateTime.Now.Year);
@@ -74,7 +81,7 @@ namespace wxDCS_Injector.Service
                             Change("mission.start_time", (int)new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second).TotalSeconds);
 
                         _strMission = $"mission={Print(_lua.GetTable("mission"))}";
-                        _strMission = $"-- Inserted METAR: {metar.station_id}\n{_strMission}";
+                        _strMission = $"-- Injected METAR: {metar.station_id}\n{_strMission}";
 
                         mission.Delete();
 
@@ -167,7 +174,7 @@ namespace wxDCS_Injector.Service
             if (val == null || _lua[key] == val)
                 return;
 
-            Log($"{key}: {_lua[key]} -> {val}");
+            Log($"{key}: {_lua[key]} -> {(val.ToString() == string.Empty ? "null" : val)}");
             _lua[key] = val;
         }
 

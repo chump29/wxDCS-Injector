@@ -9,5 +9,11 @@
         internal static float FtToM(float ft) => ft / 3.280839F;
 
         internal static float MiToM(float mi) => mi * 1609.347219F;
+
+        internal static int ReverseDirection(int dir)
+        {
+            var revDir = dir + 180;
+            return revDir > 360 ? revDir - 360 : revDir;
+        }
     }
 }
