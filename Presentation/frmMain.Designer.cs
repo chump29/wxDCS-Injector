@@ -234,7 +234,7 @@ namespace wxDCS_Injector.Presentation
             // miExit
             // 
             this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(93, 22);
+            this.miExit.Size = new System.Drawing.Size(180, 22);
             this.miExit.Text = "E&xit";
             this.miExit.Click += new System.EventHandler(this.miExit_Click);
             // 
@@ -264,6 +264,8 @@ namespace wxDCS_Injector.Presentation
             // 
             // miCurrentDate
             // 
+            this.miCurrentDate.Checked = true;
+            this.miCurrentDate.CheckState = System.Windows.Forms.CheckState.Checked;
             this.miCurrentDate.Name = "miCurrentDate";
             this.miCurrentDate.Size = new System.Drawing.Size(180, 22);
             this.miCurrentDate.Text = "&Current Date";
@@ -271,6 +273,8 @@ namespace wxDCS_Injector.Presentation
             // 
             // miCurrentTime
             // 
+            this.miCurrentTime.Checked = true;
+            this.miCurrentTime.CheckState = System.Windows.Forms.CheckState.Checked;
             this.miCurrentTime.Name = "miCurrentTime";
             this.miCurrentTime.Size = new System.Drawing.Size(180, 22);
             this.miCurrentTime.Text = "Current Time";

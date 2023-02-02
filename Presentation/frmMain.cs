@@ -21,7 +21,11 @@ namespace wxDCS_Injector.Presentation
             Text = $"wxDCS-Injector v{Application.ProductVersion}";
 
             _metarService = metarService;
+
             _injectService = injectService;
+            _injectService.UseCurrentDate = miCurrentDate.Checked;
+            _injectService.UseCurrentTime = miCurrentTime.Checked;
+
             _log = log;
         }
 
@@ -109,7 +113,11 @@ namespace wxDCS_Injector.Presentation
             CheckButton();
         }
 
-        void btnLog_Click(object sender, EventArgs e) => _log.Form.Show();
+        void btnLog_Click(object sender, EventArgs e)
+        {
+            _log.Form.Show();
+            _log.Form.BringToFront();
+        }
 
         void btnInject_Click(object sender, EventArgs e) => _injectService.InjectMETAR(_file.FileName, _metar);
 

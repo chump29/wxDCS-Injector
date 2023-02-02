@@ -50,7 +50,7 @@
             // 
             // txtLog
             // 
-            this.txtLog.Enabled = false;
+            this.txtLog.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.txtLog.Location = new System.Drawing.Point(12, 12);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
