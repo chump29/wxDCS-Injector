@@ -52,8 +52,12 @@ namespace wxDCS_Injector.Presentation
 
         public void Error(string txt, Exception ex)
         {
-            MessageBox.Show(txt, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            Log($"Error: {txt}{Environment.NewLine}Exception: {ex}");
+            var strEx = ex.Message;
+#if DEBUG
+            strEx = $"Stack trace: {ex}";
+#endif
+            MessageBox.Show($"{txt}\n\n{strEx}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Log($"Error: {txt}{Environment.NewLine}Exception: {strEx}");
         }
 
         public bool SaveLog { get; set; }

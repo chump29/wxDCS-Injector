@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using NLua;
 using wxDCS_Injector.Helper;
 using wxDCS_Injector.Presentation;
@@ -59,6 +60,8 @@ namespace wxDCS_Injector.Service
                         throw new Exception("'mission' is empty");
 
                     _lua = new Lua();
+                    _lua.State.Encoding = Encoding.UTF8;
+
                     _lua.DoString(_strMission);
 
                     _theatreData = GetTheatreData(_lua["mission.theatre"].ToString());
