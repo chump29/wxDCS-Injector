@@ -25,8 +25,8 @@ namespace wxDCS_Injector.Service
     {
         readonly ILog _log;
 
-        static string _strMission;
-        static Lua _lua;
+        string _strMission;
+        Lua _lua;
 
         static Random _rand;
 
@@ -82,7 +82,7 @@ namespace wxDCS_Injector.Service
                     Change("mission.weather.wind.at8000.speed", newSpeed);
                     Change("mission.weather.qnh", InHgToMmHg(metar.altim_in_hg));
                     Change("mission.weather.clouds.preset", null); // clear
-                    var clouds = metar.sky_condition.ToList().OrderBy(x => x.cloud_base_ft_agl).FirstOrDefault();
+                    var clouds = metar.sky_condition.OrderBy(x => x.cloud_base_ft_agl).FirstOrDefault();
                     var cloudBase = FtToM(clouds?.cloud_base_ft_agl ?? 0);
                     Change("mission.weather.clouds.base", cloudBase);
                     Change("mission.weather.clouds.thickness", cloudBase > 0 ? 200 : 0); // DCS default

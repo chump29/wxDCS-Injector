@@ -13,8 +13,7 @@ namespace wxDCS_Injector.Helper
             South = -30
         }
 
-        static Theatre()
-        {
+        static Theatre() =>
             Theatres = new List<TheatreData>
             {
                 new() { Name = "Caucasus", Hemisphere = (int)Hemispheres.North, UTC = 4 },
@@ -26,7 +25,6 @@ namespace wxDCS_Injector.Helper
                 new() { Name = "Syria", Hemisphere = (int)Hemispheres.North, UTC = 3 }
                 // TheChannel
             };
-        }
 
         internal static TheatreData GetTheatreData(string theatre) => Theatres.SingleOrDefault(t => t.Name == theatre);
     }

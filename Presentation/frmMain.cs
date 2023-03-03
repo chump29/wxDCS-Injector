@@ -74,9 +74,9 @@ namespace wxDCS_Injector.Presentation
                     _metar = metarDto.METAR;
                     if (_metar == null)
                     {
-                        var error = "METAR data not found";
-                        txtMETAR.Text = error;
-                        Log(error);
+                        const string Error = "METAR data not found";
+                        txtMETAR.Text = Error;
+                        Log(Error);
                         return;
                     }
 
